@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agência Telessaúde · Jornada do Equilíbrio — OAD Telessaúde na Escola</title>
+<meta name="description" content="Objeto de Aprendizagem Digital (REA) sobre Alimentação Balanceada e Estilo de Vida Saudável — Projeto Telessaúde na Escola. Bio+Tech EduDesign, Governo de MT e FAPEMAT.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HUD — Vitalidade Tripla -->
+<header class="top-bar">
+  <div class="brand">
+    <img src="assets/favicon.png" alt="logo">
+    <div>Agência Telessaúde<br><small>Jornada do Equilíbrio Bio-Sócio-Emocional</small></div>
+  </div>
+  <div class="hud">
+    <img id="hudAvatar" class="avatar-mini" style="display:none" src="" alt="">
+    <span id="hudName" class="chip" style="display:none"></span>
+    <div class="chip">⭐ XP: <strong id="hudXp">0</strong></div>
+    <div class="chip"><span id="hudStreak">Streak: 0</span></div>
+    <div class="vitality">
+      <div class="vit en">
+        <div class="vit-label"><span>🍎 Energia Nutric.</span><span id="vitEnVal">20</span></div>
+        <div class="bar"><div id="vitEn"></div></div>
+      </div>
+      <div class="vit fn">
+        <div class="vit-label"><span>🧠 Foco Neuro.</span><span id="vitFnVal">20</span></div>
+        <div class="bar"><div id="vitFn"></div></div>
+      </div>
+      <div class="vit vf">
+        <div class="vit-label"><span>💪 Vigor Físico</span><span id="vitVfVal">20</span></div>
+        <div class="bar"><div id="vitVf"></div></div>
+      </div>
+    </div>
+    <div class="progress-bar"><div id="progressFill"></div></div>
+  </div>
+</header>
+
+<!-- WELCOME -->
+<section id="screenWelcome" class="screen active">
+  <div class="hero">
+    <div>
+      <h1>Bem-vinda(o) à <span>Agência Telessaúde</span> de Bio-Metrópole 🌿</h1>
+      <p>Você foi recrutado como <strong>Agente de Saúde Digital</strong>. Em 8 missões, vai dominar alimentação balanceada (TBCA/USP), sono, saúde mental, movimento, dados epidemiológicos e imunidade — guiado por <strong>6 cientistas brasileiras</strong>.</p>
+      <div class="tags">
+        <span>🎯 ABP — Aprendizagem Baseada em Problemas</span>
+        <span>🎮 Gamificação · Vitalidade Tripla</span>
+        <span>🔥 Streak ×2 — Sinergia Metabólica</span>
+        <span>📚 Base científica TBCA/USP</span>
+        <span>🛡️ LGPD · TCLE · Dados só no seu navegador</span>
+      </div>
+      <button class="btn btn-primary" id="btnStartHero">🚀 Conhecer a Agência</button>
+    </div>
+    <img src="assets/hero.png" class="hero-img" alt="Cidade Bio-Metrópole">
+  </div>
+
+  <!-- IDENTIFICAÇÃO + TCLE (escola em aberto — OAD/REA) -->
+  <div style="margin-top:2.5rem">
+    <div class="section-title">
+      <h2>🪪 Identificação do Agente</h2>
+      <p>Recurso Educacional Aberto — qualquer escola pode utilizar; identifique-se para registrar sua jornada</p>
+    </div>
+    <div class="id-panel">
+      <h3>📋 Ficha de Recrutamento</h3>
+      <div class="id-grid">
+        <div><label>Nome / Codinome do agente *</label><input type="text" id="inputName" placeholder="Ex.: Ana, Agente Kiwi..." maxlength="30"></div>
+        <div><label>Série / Ano</label>
+          <select id="selectGrade">
+            <option value="">Selecione...</option>
+            <option>1ª série EM</option><option>2ª série EM</option><option>3ª série EM</option><option>Outro</option>
+          </select>
+        </div>
+        <div class="full"><label>Escola / Instituição <em>(campo aberto — REA)</em></label><input type="text" id="inputSchool" placeholder="Digite o nome da sua escola (opcional)" maxlength="80"></div>
+      </div>
+      <div class="tcle">
+        <strong>🛡️ TCLE & LGPD — Termo de Consentimento</strong><br>
+        Este OAD guarda seus dados <strong>apenas neste navegador</strong> (localStorage). Nada é enviado a servidores. Você pode apagar tudo a qualquer momento pelo botão "Apagar meus dados" no certificado. Ao prosseguir, você consente com o uso dos dados exclusivamente para a experiência educacional.
+        <label><input type="checkbox" id="checkTCLE"> <span>Li e <strong>aceito</strong> os termos (TCLE/LGPD) *</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENTORAS -->
+  <div style="margin-top:3rem" id="mentorSection">
+    <div class="section-title">
+      <h2>👩‍🔬 Escolha sua Mentora Científica</h2>
+      <p>Seis mulheres que transformaram a saúde e a ciência do Brasil</p>
+    </div>
+    <div class="mentor-grid" id="mentorGrid"></div>
+    <div style="text-align:center;margin-top:1rem">
+      <button class="btn btn-primary" id="btnStartTrail" disabled>🌿 Iniciar Jornada →</button>
+      <p style="color:var(--text-muted);font-size:.8rem;margin-top:.6rem">Preencha o nome, aceite o TCLE e escolha uma mentora para começar</p>
+    </div>
+  </div>
+
+  <!-- VÍDEO-BASE -->
+  <div style="margin-top:3rem">
+    <div class="section-title">
+      <h2>🎥 Base em Telessaúde</h2>
+      <p>O cofundador do #ECGNOW e médico cardiologista Dr. Gabriel de Paula explica sobre telessaúde nesse vídeo.</p>
+    </div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/qKZHJNGVAfs&t=30s" title="Você sabe o que é telessaúde?" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- TRILHA -->
+<section id="screenTrail" class="screen">
+  <div class="section-title">
+    <h2>🗺️ Jornada do Equilíbrio</h2>
+    <p>8 missões por Bio-Metrópole · badges · Vitalidade Tripla</p>
+  </div>
+  <div class="trail" id="trailGrid"></div>
+
+  <div style="margin-top:3rem">
+    <div class="section-title">
+      <h2>🏅 Galeria de Badges</h2>
+      <p>Incluindo o raro Badge Ouro do Hackathon</p>
+    </div>
+    <div class="badges-gallery" id="badgesGallery"></div>
+  </div>
+</section>
+
+<!-- MISSÃO -->
+<section id="screenMission" class="screen">
+  <div id="missionContent"></div>
+</section>
+
+<!-- CERTIFICADO -->
+<section id="screenCert" class="screen">
+  <div id="certContent"></div>
+</section>
+
+<!-- TOASTS -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="logos">
+    <img src="assets/logos/biotech_edudesign.png" alt="Bio+Tech EduDesign">
+    <img src="assets/logos/gov_mato_grosso.png" alt="Governo do Estado de Mato Grosso">
+    <img src="assets/logos/fapemat.svg" alt="FAPEMAT">
+  </div>
+  <p><strong>OAD Telessaúde na Escola · Agência Telessaúde — Jornada do Equilíbrio</strong></p>
+  <p>Recurso Educacional Aberto (REA) · Desenvolvido por <a href="https://github.com/bio-tech-edu">Bio+Tech EduDesign</a> · Apoio institucional <strong>Governo do Estado de Mato Grosso</strong> · Fomento à pesquisa <strong>FAPEMAT</strong></p>
+  <p>© 2026 · ABP + Gamificação + Storytelling · Dados protegidos conforme LGPD (Lei 13.709/2018)</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
