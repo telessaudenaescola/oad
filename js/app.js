@@ -43,7 +43,7 @@ const mentors = [
   {
     id:"nise", name:"Dra. Nise da Silveira",
     role:"Psiquiatra · Mente Sã",
-    img:"assets/avatars/nise.png",
+    img:"assets/avatars/nise_silveira.png",
     bio:"Psiquiatra alagoana que revolucionou o tratamento da saúde mental com afeto e arte. Pioneira em entender que emoção e corpo são um só sistema.",
     quotes:[
       "A mente que não descansa não regula a fome. Sono é o primeiro nutriente do equilíbrio emocional.",
@@ -65,7 +65,7 @@ const mentors = [
   {
     id:"turchi", name:"Dra. Celina Turchi",
     role:"Epidemiologista · Fiocruz",
-    img:"assets/avatars/turchi.png",
+    img:"assets/avatars/celina_turchi.png",
     bio:"Epidemiologista da Fiocruz que desvendou a relação entre zika e microcefalia. Mostrou ao mundo que dados bem coletados salvam vidas — a base da telessaúde.",
     quotes:[
       "Um formulário de triagem é ciência cidadã: cada resposta dos estudantes vira um dado que protege a escola inteira.",
@@ -76,7 +76,7 @@ const mentors = [
   {
     id:"jaqueline", name:"Dra. Jaqueline Goes de Jesus",
     role:"Biomédica · Imunidade",
-    img:"assets/avatars/goes.png",
+    img:"assets/avatars/jacqueline_goes.png",
     bio:"Biomédica baiana que sequenciou o genoma do SARS-CoV-2 no Brasil em 48 horas. Símbolo de que ciência jovem e diversa transforma a saúde pública.",
     quotes:[
       "Seu sistema imune trabalha 24h — e a matéria-prima dele vem do seu prato.",
@@ -572,11 +572,17 @@ function renderMissionStudy(){
         <h3>📖 ${t.h}</h3><p>${t.p}</p>
         ${t.formula?`<div class="formula">${t.formula}</div>`:''}
       </div>`).join('')}
+    ${(typeof renderInteraction==='function')?renderInteraction(m.id):''}
     <div class="nav-footer">
       <button class="btn btn-ghost" onclick="show('screenTrail')">← Voltar à trilha</button>
       <button class="btn btn-primary" onclick="startQuestions()">Começar desafios →</button>
     </div>`;
   show('screenMission');
+  // Inicializa interações especiais (Sprint 3)
+  if(m.id==='m1' && typeof novaInit==='function') novaInit();
+  if(m.id==='m2' && typeof vetCalc==='function') vetCalc();
+  if(m.id==='m3' && typeof circadianCalc==='function') circadianCalc();
+  if(m.id==='m4' && typeof fomeStart==='function') fomeStart();
 }
 window.startQuestions=function(){state.currentQ=0;renderQuestion()};
 function renderQuestion(){

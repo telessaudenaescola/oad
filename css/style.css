@@ -270,3 +270,51 @@ body{
   .certificate .rank{font-size:2rem}
   .vit{min-width:100px}
 }
+
+/* ==================== SPRINT 3 · INTERAÇÕES ==================== */
+.simulator{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin:1rem 0}
+.simulator h4{color:var(--gold);margin-bottom:.8rem}
+.sim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem}
+.sim-grid label{display:block;font-size:.82rem;color:var(--text-muted);margin-bottom:.35rem}
+.sim-grid select,.sim-grid input{width:100%;background:var(--bg-2);border:1px solid var(--border);color:var(--text);padding:.6rem .8rem;border-radius:10px;font-family:inherit;font-size:.92rem}
+.sim-result{background:rgba(0,0,0,.3);padding:1rem 1.2rem;border-radius:10px;border-left:4px solid var(--primary);min-height:56px;font-size:.92rem;line-height:1.6}
+.sim-result .big{font-size:1.4rem;font-weight:800;color:var(--gold)}
+.sim-result strong{color:var(--primary)}
+
+/* M1 — NOVA drag-and-drop */
+.nova-tray{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.2rem;padding:1rem;background:rgba(0,0,0,.25);border-radius:12px}
+.nova-food{background:var(--bg-2);border:2px solid var(--border);border-radius:99px;padding:.5rem 1rem;font-size:.88rem;cursor:grab;user-select:none;transition:all .2s}
+.nova-food:hover{border-color:var(--primary);transform:translateY(-2px)}
+.nova-food.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(251,191,36,.3);transform:scale(1.06)}
+.nova-food.placed{cursor:default;animation:none}
+.nova-zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem;margin-bottom:1rem}
+.nova-zone{border:2px dashed;border-radius:12px;padding:.8rem;min-height:130px;cursor:pointer;transition:background .2s}
+.nova-zone:hover{background:var(--card-hover)}
+.nova-zone-title{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;text-align:center}
+.nova-drop{display:flex;flex-wrap:wrap;gap:.4rem;min-height:40px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* M2 — Prato */
+.plate-row{display:grid;grid-template-columns:1fr 160px 60px;align-items:center;gap:.8rem;padding:.5rem 0;border-bottom:1px dashed var(--border)}
+.plate-food{font-size:.9rem}
+.plate-row input[type=range]{accent-color:var(--primary);width:100%}
+.plate-grams{font-weight:700;color:var(--gold);text-align:right;font-size:.9rem}
+
+/* M3 — Sono */
+.sleep-item{display:flex;flex-direction:column;gap:.5rem;padding:.9rem 1rem;border:1px solid var(--border);border-radius:12px;margin-bottom:.7rem;background:rgba(0,0,0,.18)}
+.sleep-item>span{font-size:.92rem}
+.sleep-item.ok{border-color:var(--success);background:rgba(16,185,129,.1)}
+.sleep-item.no{border-color:var(--danger);background:rgba(239,68,68,.08)}
+.sleep-btns{display:flex;gap:.6rem}
+.btn-mini{border:1px solid;border-radius:99px;padding:.35rem .9rem;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;background:transparent}
+.btn-mini.ok{border-color:var(--success);color:var(--success)}
+.btn-mini.no{border-color:var(--danger);color:var(--danger)}
+.btn-mini:hover{transform:scale(1.05)}
+.sleep-why{font-size:.85rem;color:var(--text-muted)}
+
+/* M4 — Árvore de decisão */
+.fome-stage{min-height:120px}
+.fome-node{background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(14,165,233,.05));border:1px solid var(--purple);border-radius:12px;padding:1.3rem;animation:fade .4s ease}
+.fome-node p{font-size:1rem;line-height:1.6;margin-bottom:1rem}
+.fome-options{display:flex;flex-direction:column;gap:.6rem}
+.fome-options .btn{justify-content:flex-start;border-radius:12px}

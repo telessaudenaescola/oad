@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="b5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f1d1d"/><stop offset="1" stop-color="#3f0d0d"/></linearGradient>
+    <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+  </defs>
+  <polygon points="100,8 178,54 178,146 100,192 22,146 22,54" fill="url(#b5)" stroke="url(#g5)" stroke-width="6"/>
+  <circle cx="100" cy="94" r="30" fill="none" stroke="#fb7185" stroke-width="9"/>
+  <circle cx="100" cy="94" r="14" fill="#fb7185"/>
+  <g stroke="#fb7185" stroke-width="9" stroke-linecap="round">
+    <path d="M100 52 v12 M100 124 v12 M58 94 h12 M130 94 h12 M70 64 l9 9 M121 115 l9 9 M130 64 l-9 9 M79 115 l-9 9"/>
+  </g>
+  <text x="100" y="156" font-family="Arial" font-size="11" font-weight="bold" fill="#fbbf24" text-anchor="middle">ENGRENAGEM</text>
+  <text x="100" y="172" font-family="Arial" font-size="11" font-weight="bold" fill="#fbbf24" text-anchor="middle">DO MOVIMENTO</text>
+</svg>

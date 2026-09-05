@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#78350f"/><stop offset="1" stop-color="#451a03"/></linearGradient>
+    <linearGradient id="go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde047"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient>
+  </defs>
+  <polygon points="100,4 182,52 182,148 100,196 18,148 18,52" fill="url(#bo)" stroke="url(#go)" stroke-width="8"/>
+  <path d="M100 52 l12 24 l27 4 l-19 19 l4 27 l-24 -13 l-24 13 l4 -27 l-19 -19 l27 -4 Z" fill="url(#go)" stroke="#451a03" stroke-width="2"/>
+  <path d="M64 140 q36 14 72 0" stroke="#fde047" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="56" cy="52" r="4" fill="#fde047"/>
+  <circle cx="144" cy="52" r="4" fill="#fde047"/>
+  <circle cx="100" cy="34" r="4" fill="#fde047"/>
+  <text x="100" y="166" font-family="Arial" font-size="12" font-weight="bold" fill="#fde047" text-anchor="middle">BADGE OURO</text>
+  <text x="100" y="181" font-family="Arial" font-size="11" font-weight="bold" fill="#fde047" text-anchor="middle">HACKATHON</text>
+</svg>
