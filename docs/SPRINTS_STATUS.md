@@ -1,6 +1,6 @@
 # Status de Produção — OAD Telessaúde na Escola
 ## Agência Telessaúde: Jornada do Equilíbrio Bio-Sócio-Emocional
-**Atualizado em:** 04/09/2026 (4ª sessão — Sprint 3 entregue)
+**Atualizado em:** 06/09/2026 (7ª sessão — 9/9 badges PNG + Sprint 4 entregue)
 
 **Repositório oficial:** https://github.com/telessaudenaescola/oad · **Site publicado:** https://telessaudenaescola.github.io/oad/
 
@@ -9,9 +9,12 @@
 ## ✅ Sprint 0 — Fundação e Identidade Visual (CONCLUÍDO)
 Estrutura de diretórios · logos (Bio+Tech, Gov. MT, FAPEMAT tipográfico) · CSS base · hero + favicon IA · estilos do painel de identificação com escola em aberto (OAD/REA).
 
-## ✅ Sprint 1 — Mentoras (CONCLUÍDO: 6/6) · Badges (1/9 em PNG)
+## ✅ Sprint 1 — Mentoras (CONCLUÍDO: 6/6) · Badges (✅ 9/9 em PNG/IA — sessão 7)
+- `badge_m8.png` (Agente Telessaúde — troféu hackathon + cruz de saúde) e `badge_ouro.png` (Badge Ouro lendário — estrela dourada + louros + cruz verde) gerados na sessão 7; engine aponta os 9 badges para PNG.
 - 6 mentoras em PNG/IA: Zilda Arns, Nise da Silveira, Celina Turchi, Jaqueline Goes, Bertha Lutz, Ruth Nussenzweig.
-- Badge M1 (Detetive de Rótulos) em PNG 3D/IA: `badges/badge_m1.png`.
+- Badges em PNG 3D/IA (estilo medalha hexagonal esmeralda/dourado): `badge_m1.png` (Detetive de Rótulos), `badge_m2.png` (Mestre da TBCA), `badge_m3.png` (Guardião do Sono), `badge_m4.png` (Bem-Estar), `badge_m5.png` (Engrenagem do Movimento — sessão 6), `badge_m6.png` (Painel Epidemiológico — sessão 6), `badge_m7.png` (Imunidade Nutricional — sessão 6).
+- Engine atualizado: `app.js` aponta M1–M7 para os arquivos PNG.
+
 
 ## ✅ Sprint 2 — Núcleo Gamificado (CONCLUÍDO nesta sessão)
 
@@ -46,8 +49,17 @@ Interações implementadas (integradas com XP, Vitalidade Tripla e confetti):
 
 **Validação técnica:** sintaxe JS OK (`app.js` + `interactions.js`), integração conferida (5 pontos de injeção), 2 scripts carregados no `index.html`.
 
-## ⬜ Sprints 4–6 — Pendentes
-- **Sprint 4**: M5–M8 interativas (calculadora MET; formulário de teletriagem + gráficos; flashcards imunomoduladores; hackathon com rubrica);
+## ✅ Sprint 4 — Interações M5–M8 (CONCLUÍDO nesta sessão)
+
+Interações implementadas em `js/interactions.js` (dispatcher estendido; estilos em `style.css`):
+- **M5 · Engrenagem do Movimento** — Calculadora de Gasto Calórico (MET × peso × tempo), 10 modalidades, barra de progresso da meta OMS (420 min/sem para adolescentes) com mudança de cor por faixa, +10 XP ao atingir a meta;
+- **M6 · Painel Epidemiológico** — Mini-teletriagem de 5 perguntas (ultraprocessados, sono, atividade, estresse, hidratação) → painel com barras percentuais de uma turma simulada (n = 120), marcando em quais grupos de risco o usuário se enquadra, com nota LGPD; +15 XP;
+- **M7 · Imunidade Nutricional** — 6 flashcards com flip 3D (zinco, vitamina C, fibras, fermentados, vitamina D/ômega 3, disbiose), contador de cards vistos, +15 XP ao completar;
+- **M8 · Hackathon Telessaúde (boss)** — Formulário de proposta (título + descrição) + rubrica de autoavaliação com 5 critérios (problema real, teletriagem, LGPD, tele-educação, sustentabilidade); rubrica completa + texto (≥60 caracteres) concede **Badge Ouro +50 XP** automaticamente.
+
+**Validação técnica:** sintaxe OK (`app.js` + `interactions.js`), inicializações pós-render incluídas no engine, 351 linhas de CSS.
+
+## ⬜ Sprints 5–6 — Pendentes
 - **Sprint 5**: Camada Telessaúde (página tele-educação em nova guia; Ciclo de Palestras completo — 5 dias; Cornell Notes com exportação PDF; canal de dúvidas);
 - **Sprint 6**: Wiki colaborativo (TCLE, LGPD, BNCC/BNCC Computação, uso responsável de IA, Sprints), QA, README final, ZIP e deploy GitHub Pages.
 

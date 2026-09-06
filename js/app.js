@@ -89,14 +89,14 @@ const mentors = [
 // ================= BADGES =================
 const badges = [
   {id:"m1", name:"Detetive de Rótulos", img:"assets/badges/badge_m1.png", desc:"Classificou alimentos pelo grau de processamento"},
-  {id:"m2", name:"Mestre da TBCA", img:"assets/badges/badge_m2.svg", desc:"Calculou necessidades energéticas com dados científicos"},
-  {id:"m3", name:"Guardião do Sono", img:"assets/badges/badge_m3.svg", desc:"Dominou a higiene do sono e o ritmo circadiano"},
-  {id:"m4", name:"Bem-Estar", img:"assets/badges/badge_m4.svg", desc:"Diferenciou fome fisiológica de emocional"},
-  {id:"m5", name:"Engrenagem do Movimento", img:"assets/badges/badge_m5.svg", desc:"Planejou atividade física com metas da OMS"},
-  {id:"m6", name:"Painel Epidemiológico", img:"assets/badges/badge_m6.svg", desc:"Interpretou dados de saúde da comunidade escolar"},
-  {id:"m7", name:"Imunidade Nutricional", img:"assets/badges/badge_m7.svg", desc:"Relacionou nutrientes às defesas do corpo"},
-  {id:"m8", name:"Agente Telessaúde", img:"assets/badges/badge_m8.svg", desc:"Completou a Jornada do Equilíbrio"},
-  {id:"ouro", name:"Badge Ouro · Hackathon", img:"assets/badges/badge_ouro.svg", desc:"Elite: propôs solução de saúde para a comunidade"}
+  {id:"m2", name:"Mestre da TBCA", img:"assets/badges/badge_m2.png", desc:"Calculou necessidades energéticas com dados científicos"},
+  {id:"m3", name:"Guardião do Sono", img:"assets/badges/badge_m3.png", desc:"Dominou a higiene do sono e o ritmo circadiano"},
+  {id:"m4", name:"Bem-Estar", img:"assets/badges/badge_m4.png", desc:"Diferenciou fome fisiológica de emocional"},
+  {id:"m5", name:"Engrenagem do Movimento", img:"assets/badges/badge_m5.png", desc:"Planejou atividade física com metas da OMS"},
+  {id:"m6", name:"Painel Epidemiológico", img:"assets/badges/badge_m6.png", desc:"Interpretou dados de saúde da comunidade escolar"},
+  {id:"m7", name:"Imunidade Nutricional", img:"assets/badges/badge_m7.png", desc:"Relacionou nutrientes às defesas do corpo"},
+  {id:"m8", name:"Agente Telessaúde", img:"assets/badges/badge_m8.png", desc:"Completou a Jornada do Equilíbrio"},
+  {id:"ouro", name:"Badge Ouro · Hackathon", img:"assets/badges/badge_ouro.png", desc:"Elite: propôs solução de saúde para a comunidade"}
 ];
 
 // ================= MISSÕES =================
@@ -578,11 +578,12 @@ function renderMissionStudy(){
       <button class="btn btn-primary" onclick="startQuestions()">Começar desafios →</button>
     </div>`;
   show('screenMission');
-  // Inicializa interações especiais (Sprint 3)
+  // Inicializa interações especiais (Sprint 3 + Sprint 4)
   if(m.id==='m1' && typeof novaInit==='function') novaInit();
   if(m.id==='m2' && typeof vetCalc==='function') vetCalc();
   if(m.id==='m3' && typeof circadianCalc==='function') circadianCalc();
   if(m.id==='m4' && typeof fomeStart==='function') fomeStart();
+  if(m.id==='m5' && typeof metCalc==='function') metCalc();
 }
 window.startQuestions=function(){state.currentQ=0;renderQuestion()};
 function renderQuestion(){

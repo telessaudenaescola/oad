@@ -361,3 +361,280 @@ window.fomeGo = function(nodeId){
   stage.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
 window.fomeStart = function(){ fomeGo('start') };
+
+/* =====================================================
+   SPRINT 4 · Interações M5–M8
+   M5: Calculadora de Gasto Calórico (MET)
+   M6: Formulário de Teletriagem + Painel Epidemiológico
+   M7: Flashcards de Alimentação Imunomoduladora
+   M8: Hackathon Telessaúde (proposta + rubrica)
+   ===================================================== */
+
+/* ---------- Dispatcher M5–M8 (estende o da M1–M4) ---------- */
+(function(){
+  const baseRender = window.renderInteraction;
+  window.renderInteraction = function(mid){
+    if(mid==='m5') return renderMETCalc();
+    if(mid==='m6') return renderTriagem();
+    if(mid==='m7') return renderFlashcards();
+    if(mid==='m8') return renderHackathon();
+    return baseRender(mid);
+  };
+})();
+
+/* =====================================================
+   M5 — ENGRENAGEM DO MOVIMENTO · Calculadora MET
+   ===================================================== */
+const MET_ACTIVITIES = [
+  {name:"🚶 Caminhada", met:3.5},
+  {name:"🚴 Bicicleta leve", met:5.5},
+  {name:"🏃 Corrida leve", met:7.0},
+  {name:"⚽ Futebol", met:8.0},
+  {name:"🏀 Basquete", met:6.5},
+  {name:"🏊 Natação", met:8.0},
+  {name:"💃 Dança", met:5.0},
+  {name:"🧘 Yoga", met:2.5},
+  {name:"🛹 Skate", met:5.0},
+  {name:"🥊 Artes marciais", met:9.0}
+];
+
+function renderMETCalc(){
+  return `
+  <div class="simulator">
+    <h4>🏃 Interação · Calculadora de Gasto Calórico (MET)</h4>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:.9rem">
+      Gasto ≈ <strong>MET × peso (kg) × tempo (h)</strong>. Monte seu plano semanal e veja se atinge a meta da OMS:
+    </p>
+    <div class="sim-grid">
+      <div><label>Modalidade</label>
+        <select id="metAct" onchange="metCalc()">
+          ${MET_ACTIVITIES.map((a,i)=>`<option value="${a.met}">${a.name} (${a.met} MET)</option>`).join('')}
+        </select></div>
+      <div><label>Peso corporal (kg)</label><input type="number" id="metWeight" value="60" min="25" max="250" oninput="metCalc()"></div>
+      <div><label>Minutos por sessão</label><input type="number" id="metMin" value="30" min="5" max="300" step="5" oninput="metCalc()"></div>
+      <div><label>Sessões por semana</label><input type="number" id="metFreq" value="3" min="1" max="14" oninput="metCalc()"></div>
+    </div>
+    <div class="sim-result" id="metResult"></div>
+    <div id="metBar" class="oms-bar"><div id="omsFill"></div></div>
+    <div id="metFeedback" style="margin-top:.6rem;font-size:.88rem;color:var(--text-muted)"></div>
+  </div>`;
+}
+
+window.metCalc = function(){
+  const met=parseFloat($('#metAct').value), w=parseFloat($('#metWeight').value)||0,
+        min=parseFloat($('#metMin').value)||0, freq=parseInt($('#metFreq').value)||0;
+  if(w<=0){$('#metResult').innerHTML='<strong>⚠️ Informe o peso.</strong>';return}
+  const kcalSession = met*w*(min/60);
+  const kcalWeek = kcalSession*freq;
+  const minWeek = min*freq;
+  // Meta OMS adolescente: 60 min/dia ≈ 420 min/sem · adulto: 150 min/sem moderada
+  const pct = Math.min(100, Math.round(minWeek/420*100));
+  $('#metResult').innerHTML=`
+    <strong>Por sessão:</strong> ${Math.round(kcalSession)} kcal · <strong>Por semana:</strong> ${Math.round(kcalWeek).toLocaleString('pt-BR')} kcal<br>
+    <strong>Tempo semanal:</strong> ${minWeek} min <span style="color:var(--text-muted)">(meta OMS adolescente: ~420 min)</span>`;
+  $('#omsFill').style.width=pct+'%';
+  $('#omsFill').style.background = pct>=100 ? 'linear-gradient(90deg,#10b981,#34d399)' : pct>=35 ? 'linear-gradient(90deg,#fbbf24,#fde047)' : 'linear-gradient(90deg,#ef4444,#fb7185)';
+  let fb;
+  if(pct>=100){ fb='🌟 <strong>Meta OMS para adolescentes SUPERADA!</strong> Seu corpo agradece: mais mitocôndrias, melhor humor e sono. +10 XP';
+    if(!window._metBonus){state.xp+=10;bumpVitality('vf',+6);window._metBonus=true;toast('🏃 Meta OMS atingida! +10 XP','gold')} }
+  else if(pct>=35) fb='👍 Bom ritmo! Faltam '+(420-minWeek)+' min semanais para a meta de adolescentes (60 min/dia). Tente somar caminhadas ao plano.';
+  else fb='💡 Comece devagar: 3 caminhadas de 30 min já somam 90 min/semana. O importante é a constância, não a intensidade.';
+  $('#metFeedback').innerHTML=fb;
+  updateHud();
+};
+
+/* =====================================================
+   M6 — PAINEL EPIDEMIOLÓGICO · Teletriagem + Gráficos
+   ===================================================== */
+const TRIAGE_QUESTIONS = [
+  {id:"t1", text:"🍔 Quantas vezes por semana você consome ultraprocessados (refrigerante, salgadinho, fast-food)?", opts:["0–1 vez","2–3 vezes","4–6 vezes","Todos os dias"]},
+  {id:"t2", text:"🌙 Quantas horas você dorme por noite, em média?", opts:["9h ou mais","7–8h","5–6h","Menos de 5h"]},
+  {id:"t3", text:"🏃 Quantos minutos de atividade física você faz por dia?", opts:["60 min ou mais","30–59 min","10–29 min","Quase nunca"]},
+  {id:"t4", text:"🧠 Como está seu nível de estresse/ansiedade nas últimas semanas?", opts:["Baixo","Moderado","Alto","Muito alto"]},
+  {id:"t5", text:"💧 Quantos copos de água você bebe por dia?", opts:["8 ou mais","5–7","3–4","Menos de 3"]}
+];
+let triageAnswers = {};
+
+function renderTriagem(){
+  triageAnswers={};
+  return `
+  <div class="simulator">
+    <h4>📡 Interação · Teletriagem Escolar (simulação)</h4>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:.9rem">
+      Responda a mini-triagem como se fosse da sua turma. Depois veja o <strong>painel epidemiológico</strong> com dados simulados de 120 estudantes + suas respostas. <em>Dados só neste navegador (LGPD).</em>
+    </p>
+    <div id="triageList">
+      ${TRIAGE_QUESTIONS.map((q,i)=>`
+        <div class="triage-q" id="${q.id}">
+          <p>${q.text}</p>
+          <div class="triage-opts">
+            ${q.opts.map((o,j)=>`<button class="btn-mini tri" onclick="triageAnswer(${i},${j},this)">${o}</button>`).join('')}
+          </div>
+        </div>`).join('')}
+    </div>
+    <div id="triagePanel" style="display:none">
+      <h4 style="color:var(--gold);margin:1.2rem 0 .6rem">📊 Painel Epidemiológico — Turma simulada (n = 120)</h4>
+      <div id="epiCharts"></div>
+      <div class="sim-result" id="epiResult"></div>
+    </div>
+  </div>`;
+}
+
+window.triageAnswer = function(qi, oi, btn){
+  if(triageAnswers[qi]!==undefined) return;
+  triageAnswers[qi]=oi;
+  const box=btn.closest('.triage-q');
+  box.querySelectorAll('.btn-mini').forEach(b=>b.disabled=true);
+  btn.classList.add('chosen');
+  const done=Object.keys(triageAnswers).length;
+  toast('Resposta registrada ('+done+'/5)','gold');
+  if(done===TRIAGE_QUESTIONS.length){
+    state.xp+=15; bumpVitality('fn',+6);
+    toast('📡 Teletriagem completa! +15 XP','gold');
+    buildEpiPanel();
+    updateHud();saveGame();
+  }
+};
+
+// Dados simulados da turma (distribuições plausíveis de EM)
+const EPI_DATA = [
+  {label:"Ultraprocessados ≥4x/sem", pct:58, color:"#ef4444"},
+  {label:"Dormem menos de 7h", pct:64, color:"#a855f7"},
+  {label:"Atividade < 60 min/dia", pct:71, color:"#fb7185"},
+  {label:"Estresse alto/muito alto", pct:47, color:"#fbbf24"},
+  {label:"Bebem menos de 5 copos de água", pct:52, color:"#0ea5e9"}
+];
+
+function buildEpiPanel(){
+  $('#triagePanel').style.display='block';
+  // Ajuste: se a resposta do usuário indica risco, ele "entra" nas estatísticas
+  const risk = [triageAnswers[0]>=2, triageAnswers[1]>=2, triageAnswers[2]>=2, triageAnswers[3]>=2, triageAnswers[4]>=2];
+  $('#epiCharts').innerHTML = EPI_DATA.map((d,i)=>{
+    const user=risk[i]?' <span style="color:var(--gold);font-weight:700">← você está neste grupo</span>':'';
+    return `
+    <div class="epi-row">
+      <span class="epi-label">${d.label}${user}</span>
+      <div class="epi-bar"><div style="width:${d.pct}%;background:${d.color}"></div><span>${d.pct}%</span></div>
+    </div>`;
+  }).join('');
+  const totalRisk=risk.filter(Boolean).length;
+  $('#epiResult').innerHTML=`
+    <strong>Leitura epidemiológica:</strong> a turma apresenta ${totalRisk===0?'padrão de baixo risco geral':'fatores de risco combinados'} —
+    ${totalRisk}/5 fatores de risco se aplicam a você nesta simulação.<br>
+    <span style="color:var(--text-muted);font-size:.85rem">Na escola real, esse painel (dados AGREGADOS e ANÔNIMOS, conforme LGPD) orienta ações: palestra de sono, desafio de hidratação, interclasse ativo. É assim que teletriagem vira prevenção! 🏥</span>`;
+}
+
+/* =====================================================
+   M7 — IMUNIDADE · Flashcards Imunomoduladores
+   ===================================================== */
+const FLASHCARDS = [
+  {front:"🌰 ZINCO", back:"Maturação das células de defesa (linfócitos T). Fontes: carnes, feijões, castanha-do-pará, ovos. Deficiência = queda da imunidade celular."},
+  {front:"🍊 VITAMINA C", back:"Potencializa a função dos leucócitos e é antioxidante. Fontes: acerola (campeã!), goiaba, laranja, kiwi. Não 'cura' gripe, mas reduz duração."},
+  {front:"🌾 FIBRAS", back:"Alimentam a microbiota intestinal (prebióticos). ~70% das células imunes vivem no intestino. Fontes: aveia, feijões, frutas com casca, vegetais."},
+  {front:"🥛 FERMENTADOS", back:"Probióticos naturais (iogurte natural, kefir, kombuchá) somam micro-organismos vivos que fortalecem a barreira intestinal."},
+  {front:"🧄 VITAMINA D + ÔMEGA 3", back:"Vitamina D (sol + peixes, ovos) regula a resposta imune; ômega 3 (sardinha, linhaça, chia) modula a inflamação."},
+  {front:"⚠️ O INIMIGO", back:"Ultraprocessados ricos em açúcar e emulsificantes causam DISBIOSE: desequilíbrio da microbiota → inflamação crônica → imunidade baixa."}
+];
+let fcIndex=0, fcSeen=new Set(), fcFlipped=false;
+
+function renderFlashcards(){
+  fcIndex=0; fcSeen=new Set(); fcFlipped=false;
+  return `
+  <div class="simulator">
+    <h4>🃏 Interação · Flashcards — Alimentação Imunomoduladora</h4>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:.9rem">Toque no card para virar. Estude os 6 cards para ganhar +15 XP:</p>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-face fc-front" id="fcFront">${FLASHCARDS[0].front}</div>
+      <div class="fc-face fc-back" id="fcBack">${FLASHCARDS[0].back}</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.8rem">
+      <button class="btn btn-ghost" onclick="prevCard()">← Anterior</button>
+      <span id="fcCounter" style="color:var(--text-muted);font-size:.85rem">1/6 · vistos: 0</span>
+      <button class="btn btn-ghost" onclick="nextCard()">Próximo →</button>
+    </div>
+    <div class="sim-result" id="fcResult" style="margin-top:.8rem">Estude todos os cards para dominar a imunonutrição! 🛡️</div>
+  </div>`;
+}
+
+window.flipCard=function(){
+  fcFlipped=!fcFlipped;
+  $('#flashcard').classList.toggle('flipped',fcFlipped);
+  if(fcFlipped && !fcSeen.has(fcIndex)){
+    fcSeen.add(fcIndex);
+    updateFcCounter();
+  }
+};
+function showCard(){
+  fcFlipped=false;
+  $('#flashcard').classList.remove('flipped');
+  $('#fcFront').textContent=FLASHCARDS[fcIndex].front;
+  $('#fcBack').textContent=FLASHCARDS[fcIndex].back;
+  updateFcCounter();
+}
+function updateFcCounter(){
+  $('#fcCounter').textContent=(fcIndex+1)+'/6 · vistos: '+fcSeen.size;
+  if(fcSeen.size===6 && !window._fcBonus){
+    window._fcBonus=true;
+    state.xp+=15;bumpVitality('en',+6);
+    $('#fcResult').innerHTML='🛡️ <strong>Todos os cards estudados! +15 XP.</strong> Você agora domina zinco, vitamina C, fibras, probióticos e o perigo da disbiose.';
+    toast('🛡️ Imunonutrição completa! +15 XP','gold');confetti();
+    updateHud();saveGame();
+  }
+}
+window.nextCard=function(){fcIndex=(fcIndex+1)%FLASHCARDS.length;showCard()};
+window.prevCard=function(){fcIndex=(fcIndex-1+FLASHCARDS.length)%FLASHCARDS.length;showCard()};
+
+/* =====================================================
+   M8 — HACKATHON TELESSAÚDE · Proposta + Rubrica
+   ===================================================== */
+const HACKATHON_CRITERIA = [
+  {id:"hk1", t:"🎯 Problema real identificado na minha escola/comunidade (ex.: sono, lanches, sedentarismo)"},
+  {id:"hk2", t:"📊 Usa dados de teletriagem (formulário + painel agregado e anônimo)"},
+  {id:"hk3", t:"🛡️ Respeita a LGPD: consentimento (TCLE) e anonimização"},
+  {id:"hk4", t:"🎓 Inclui tele-educação: ação educativa com supervisão de professores"},
+  {id:"hk5", t:"♻️ É sustentável: pode se repetir a cada trimestre sem custo alto"}
+];
+
+function renderHackathon(){
+  return `
+  <div class="simulator" style="border-color:var(--gold)">
+    <h4>🏆 Interação Final · Hackathon Telessaúde de Bio-Metrópole</h4>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:.9rem">
+      Boss final! Escreva sua proposta de ação de saúde digital para a comunidade escolar e autoavalie pela <strong>rubrica oficial</strong>:
+    </p>
+    <div class="id-grid" style="margin-bottom:1rem">
+      <div class="full"><label>Título da proposta</label><input type="text" id="hkTitle" placeholder="Ex.: Desafio 21 Dias de Sono" maxlength="60"></div>
+      <div class="full"><label>Descreva sua solução (problema → ação de telessaúde → resultado esperado)</label>
+        <textarea id="hkDesc" rows="4" style="width:100%;background:var(--bg-2);border:1px solid var(--border);color:var(--text);padding:.75rem 1rem;border-radius:12px;font-family:inherit;font-size:.92rem;resize:vertical" placeholder="Ex.: Minha turma dorme pouco. Proponho teletriagem de sono + desafio de desconexão digital com painel de progresso da turma..."></textarea></div>
+    </div>
+    <h4 style="color:var(--gold);margin-bottom:.6rem">📋 Rubrica de Autoavaliação</h4>
+    ${HACKATHON_CRITERIA.map((c,i)=>`
+      <label style="display:flex;gap:.6rem;align-items:flex-start;padding:.5rem 0;cursor:pointer;border-bottom:1px dashed var(--border)">
+        <input type="checkbox" id="${c.id}" style="margin-top:4px" onchange="hkScore()">
+        <span style="font-size:.9rem">${c.t}</span>
+      </label>`).join('')}
+    <div class="sim-result" id="hkResult" style="margin-top:1rem"><strong>Rubrica:</strong> 0/5 critérios atendidos</div>
+  </div>`;
+}
+
+window.hkScore=function(){
+  const done=HACKATHON_CRITERIA.filter(c=>$('#'+c.id).checked).length;
+  const title=$('#hkTitle').value.trim(), desc=$('#hkDesc').value.trim();
+  let extra='';
+  if(done===5){
+    if(title.length>=4 && desc.length>=60){
+      if(!window._hkBonus){
+        window._hkBonus=true;
+        state.xp+=50;bumpVitality('vf',+8);bumpVitality('fn',+8);
+        if(!state.badges.includes('ouro')){state.badges.push('ouro')}
+        toast('🏆 BADGE OURO DO HACKATHON CONQUISTADO! +50 XP','gold');
+        confetti();setTimeout(confetti,600);
+        updateHud();saveGame();
+      }
+      extra=' · 🏆 <strong>PROPOSTA APROVADA! Badge Ouro desbloqueado!</strong> Leve sua ideia "'+title+'" para a coordenação da sua escola — ela é implementável de verdade.';
+    } else {
+      extra=' · ✍️ Rubrica completa! Agora capriche no <strong>título</strong> e na <strong>descrição</strong> (mín. 60 caracteres) para conquistar o Badge Ouro.';
+    }
+  } else if(done>=3) extra=' · 💪 Quase lá! Fortaleça os critérios restantes.';
+  $('#hkResult').innerHTML=`<strong>Rubrica:</strong> ${done}/5 critérios atendidos`+extra;
+};
