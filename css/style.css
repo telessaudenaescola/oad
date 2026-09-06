@@ -318,3 +318,34 @@ body{
 .fome-node p{font-size:1rem;line-height:1.6;margin-bottom:1rem}
 .fome-options{display:flex;flex-direction:column;gap:.6rem}
 .fome-options .btn{justify-content:flex-start;border-radius:12px}
+
+/* ==================== SPRINT 4 · INTERAÇÕES M5–M8 ==================== */
+/* M5 — Barra de meta OMS */
+.oms-bar{height:14px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:.8rem}
+.oms-bar>div{height:100%;width:0%;transition:width .6s ease;border-radius:99px;background:linear-gradient(90deg,#ef4444,#fb7185)}
+
+/* M6 — Teletriagem + Painel epidemiológico */
+.triage-q{padding:.9rem 1rem;border:1px solid var(--border);border-radius:12px;margin-bottom:.7rem;background:rgba(0,0,0,.18)}
+.triage-q p{font-size:.92rem;margin-bottom:.6rem}
+.triage-opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.btn-mini.tri{border-color:var(--tele);color:var(--tele)}
+.btn-mini.tri.chosen{background:var(--tele);color:#031b12;border-color:var(--tele)}
+.btn-mini.tri:disabled:not(.chosen){opacity:.4}
+.epi-row{display:grid;grid-template-columns:1fr;gap:.3rem;margin-bottom:.8rem}
+.epi-label{font-size:.88rem}
+.epi-bar{display:flex;align-items:center;gap:.6rem}
+.epi-bar>div:first-child{height:16px;border-radius:99px;transition:width .8s ease}
+.epi-bar{background:rgba(255,255,255,.06);border-radius:99px;height:16px;flex:1;position:relative}
+.epi-bar span{font-size:.78rem;font-weight:700;color:var(--text);position:absolute;right:8px;top:50%;transform:translateY(-50%)}
+
+/* M7 — Flashcards */
+.flashcard{position:relative;width:100%;max-width:440px;height:240px;margin:0 auto;cursor:pointer;
+  perspective:1000px;transition:transform .1s}
+.flashcard .fc-face{position:absolute;inset:0;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:1.5rem;backface-visibility:hidden;transition:transform .55s ease;
+  font-size:1.05rem;line-height:1.5;box-shadow:var(--shadow)}
+.fc-front{background:linear-gradient(135deg,#065f46,#0d332b);border:2px solid var(--primary);font-weight:800;font-size:1.4rem;color:var(--gold)}
+.fc-back{background:linear-gradient(135deg,#0c4a6e,#082f3f);border:2px solid var(--tele);transform:rotateY(180deg);font-size:.92rem;color:var(--text)}
+.flashcard.flipped .fc-front{transform:rotateY(-180deg)}
+.flashcard.flipped .fc-back{transform:rotateY(0deg)}
+.flashcard:hover{transform:scale(1.02)}
