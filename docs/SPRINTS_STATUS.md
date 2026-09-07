@@ -1,6 +1,6 @@
 # Status de Produção — OAD Telessaúde na Escola
 ## Agência Telessaúde: Jornada do Equilíbrio Bio-Sócio-Emocional
-**Atualizado em:** 06/09/2026 (7ª sessão — 9/9 badges PNG + Sprint 4 entregue)
+**Atualizado em:** 07/09/2026 (8ª sessão — Sprint 5 entregue)
 
 **Repositório oficial:** https://github.com/telessaudenaescola/oad · **Site publicado:** https://telessaudenaescola.github.io/oad/
 
@@ -59,8 +59,15 @@ Interações implementadas em `js/interactions.js` (dispatcher estendido; estilo
 
 **Validação técnica:** sintaxe OK (`app.js` + `interactions.js`), inicializações pós-render incluídas no engine, 351 linhas de CSS.
 
-## ⬜ Sprints 5–6 — Pendentes
-- **Sprint 5**: Camada Telessaúde (página tele-educação em nova guia; Ciclo de Palestras completo — 5 dias; Cornell Notes com exportação PDF; canal de dúvidas);
+## ✅ Sprint 5 — Camada Telessaúde (CONCLUÍDO nesta sessão)
+
+Nova página **`teleeducacao.html`** (abre em nova guia via botão coral na tela inicial), contendo:
+- 📝 **Cornell Notes** com 3 áreas (pistas / anotações / síntese), persistência local (LGPD — localStorage) e **exportação em PDF** (janela de impressão formatada, "Salvar como PDF");
+- 🎓 **Ciclo de Palestras completo** (6 dias): 1º IA na Saúde (Rosa Costa/UERJ), 2º RV/RA (Alcyr/UFCSPA), 3º Serious Games (UFBA/Net-Escola), 4º leituras de gamificação (DOIs), 5º anais SBGames 2021, 6º cursos gratuitos EVG/Fundação Bradesco (LGPD 2h, REA 20h etc.);
+- 🎬 **Videoteca curada por tema** (11 vídeos curtos de canais verificados): telessaúde (Dr. Gabriel de Paula), M1 ultraprocessados (BBC News Brasil; SAPS/Min. da Saúde), M2 Guia Alimentar (PAHO/OPAS), M3 sono (Hospital Alemão Oswaldo Cruz; g1; Ciência Todo Dia), M5 exercício (Drauzio Varella; Marcio Atalla), M7 imunidade (Olá, Ciência!; Universo Explicado);
+- Estilos dedicados embutidos + regra `@media print` para o PDF do Cornell Notes.
+
+## ⬜ Sprint 6 — Pendente
 - **Sprint 6**: Wiki colaborativo (TCLE, LGPD, BNCC/BNCC Computação, uso responsável de IA, Sprints), QA, README final, ZIP e deploy GitHub Pages.
 
 ---
