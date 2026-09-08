@@ -106,7 +106,7 @@ oad-telessaude-escola/
 │   ├── hero.png · favicon.png
 │   ├── avatars/  (zilda_arns.png, nise_silveira.png, bertha_lutz.png,
 │   │              ruth_nussenzweig.png, celina_turchi.png, jacqueline_goes.png)
-│   ├── badges/   (badge_m1.png, badge_m2.svg ... badge_m8.svg, badge_ouro.svg)
+│   ├── badges/   (badge_m1.png, badge_m2.png, ... badge_m8.png, badge_ouro.png)
 │   └── logos/    (biotech_edudesign.png, gov_mato_grosso.png, fapemat.png)
 └── docs/
     ├── modelo_conceitual_OAD_telessaude_na_escola.md
@@ -119,7 +119,7 @@ oad-telessaude-escola/
 ## 🤝 Créditos
 
 - **Projeto**: Telessaúde na Escola
-- **Desenvolvimento & Autoria**: Bio+Tech EduDesign
+- **Desenvolvimento & Coautoria**: Bio+Tech EduDesign
 - **Apoios/Logos**: Gov. MT / FAPEMAT
 - **Base Científica**: Tabela Brasileira de Composição de Alimentos (TBCA - USP/FoRC) e Guia Alimentar para a População Brasileira.
 - **Documentação OAD**: Projeto colaborativo disponibilizado na Wiki integrada.

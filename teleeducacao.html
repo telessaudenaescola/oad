@@ -4,44 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tele-educação em Saúde · OAD Telessaúde na Escola</title>
-<meta name="description" content="Página de tele-educação do OAD Telessaúde na Escola: ciclo de palestras, videoteca curada e Cornell Notes com exportação em PDF.">
+<meta name="description" content="Videoteca curada da jornada + Cornell Notes com exportação em PDF — assista e anote ao mesmo tempo.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="css/style.css">
 <style>
-  .tele-hero{text-align:center;padding:2.5rem 1rem 1.5rem}
-  .tele-hero h1{font-size:2.2rem;background:linear-gradient(90deg,var(--tele),var(--primary),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.5rem}
-  .day-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.2rem}
-  .day-card h3{color:var(--tele);margin-bottom:.4rem;font-size:1.1rem}
-  .day-card .meta{font-size:.8rem;color:var(--gold);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.5px}
-  .day-card p{color:var(--text-muted);font-size:.9rem;margin-bottom:.8rem;line-height:1.5}
-  .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px}
-  .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
-  .vid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem}
-  .vid-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
-  .vid-card .vid-body{padding:.9rem 1rem 1.1rem}
-  .vid-card h4{font-size:.92rem;margin-bottom:.3rem;color:var(--text)}
-  .vid-card .src{font-size:.75rem;color:var(--text-muted)}
-  .vid-card .dur{display:inline-block;background:var(--primary);color:#022c1e;font-size:.7rem;font-weight:800;padding:.15rem .5rem;border-radius:99px;margin-top:.5rem}
-  .theme-tag{display:inline-block;background:rgba(168,85,247,.2);border:1px solid var(--purple);color:#d8b4fe;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:99px;margin-bottom:.5rem}
+  /* ==================== SPRINT 5 · NOVO LAYOUT ==================== */
+  .tele-hero{text-align:center;padding:2rem 1rem 1.2rem}
+  .tele-hero h1{font-size:2rem;background:linear-gradient(90deg,var(--tele),var(--primary),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.4rem}
+  .tele-hero p{color:var(--text-muted);max-width:720px;margin:0 auto;font-size:.95rem}
+
+  /* TELA 1 — Galeria de miniaturas */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.1rem;margin-top:1.2rem}
+  .thumb{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .22s ease}
+  .thumb:hover{transform:translateY(-5px);border-color:var(--tele);box-shadow:0 14px 34px rgba(14,165,233,.25)}
+  .thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+  .thumb .t-body{padding:.7rem .85rem .9rem}
+  .thumb .t-tag{display:inline-block;background:rgba(14,165,233,.18);border:1px solid var(--tele);color:#7dd3fc;font-size:.66rem;font-weight:800;padding:.12rem .5rem;border-radius:99px;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.5px}
+  .thumb h4{font-size:.85rem;line-height:1.3;margin-bottom:.25rem;color:var(--text)}
+  .thumb .t-src{font-size:.72rem;color:var(--text-muted)}
+  .thumb .t-dur{float:right;background:rgba(0,0,0,.6);color:#fff;font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:6px;margin-top:-1.9rem;margin-right:.5rem;position:relative}
+
+  .sec-h{display:flex;align-items:center;gap:.7rem;margin:2rem 0 1rem}
+  .sec-h h2{font-size:1.25rem;color:var(--gold);white-space:nowrap}
+  .sec-h::after{content:"";flex:1;height:1px;background:var(--border)}
+
+  /* TELA 2 — Player + Cornell lado a lado */
+  #viewPlayer{display:none}
+  .player-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1.4rem;align-items:start}
+  @media(max-width:900px){.player-grid{grid-template-columns:1fr}}
+  .player-video .video-wrap{border-radius:14px;box-shadow:var(--shadow)}
+  .player-video h2{font-size:1.2rem;margin:.9rem 0 .2rem;color:var(--text)}
+  .player-video .p-src{font-size:.82rem;color:var(--text-muted)}
+  .player-video .p-tag{display:inline-block;background:rgba(168,85,247,.2);border:1px solid var(--purple);color:#d8b4fe;font-size:.7rem;font-weight:700;padding:.18rem .6rem;border-radius:99px;margin-top:.5rem}
 
   /* Cornell Notes */
-  .cornell{display:grid;grid-template-columns:1fr 2fr;gap:0;border:2px solid var(--primary);border-radius:14px;overflow:hidden;margin:1rem 0}
-  .cornell textarea{background:rgba(0,0,0,.25);border:0;color:var(--text);font-family:inherit;font-size:.9rem;padding:1rem;resize:vertical;min-height:220px;line-height:1.6}
-  .cornell textarea:focus{outline:none;background:rgba(0,0,0,.35)}
-  .cornell .cue{border-right:2px solid var(--primary)}
-  .cornell .synth{grid-column:1/-1;border-top:2px solid var(--primary);min-height:100px}
-  .cornell .lbl{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold);padding:.6rem 1rem 0;font-weight:800}
-  @media(max-width:640px){.cornell{grid-template-columns:1fr}.cornell .cue{border-right:0;border-bottom:2px solid var(--primary)}}
-  .course-link{display:flex;align-items:center;gap:.6rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.6rem;text-decoration:none;color:var(--text);transition:all .2s}
-  .course-link:hover{border-color:var(--tele);background:var(--card-hover)}
-  .course-link .ch{margin-left:auto;background:var(--tele);color:#031b12;font-size:.72rem;font-weight:800;padding:.2rem .6rem;border-radius:99px;white-space:nowrap}
+  .cornell-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.1rem}
+  .cornell-box h3{color:var(--gold);font-size:1rem;margin-bottom:.6rem}
+  .cornell-box label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin:.6rem 0 .2rem}
+  .cornell-box input,.cornell-box textarea{width:100%;background:rgba(0,0,0,.28);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.85rem;padding:.6rem .7rem;border-radius:10px;resize:vertical;line-height:1.5}
+  .cornell-box input:focus,.cornell-box textarea:focus{outline:2px solid var(--primary)}
+  .cn-cue{min-height:90px;border-left:3px solid var(--gold)!important}
+  .cn-notes{min-height:150px}
+  .cn-synth{min-height:70px;border-left:3px solid var(--primary)!important}
+  .cn-actions{display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap}
+  .cn-actions .btn{padding:.6rem 1.1rem;font-size:.85rem}
+
+  /* Navegação inferior */
+  .nav-bottom{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-top:1.8rem;flex-wrap:wrap}
+  .nav-next-wrap{text-align:right}
+  .nav-next-name{font-size:.78rem;color:var(--text-muted);margin-top:.35rem;max-width:300px}
+  .nav-next-name strong{color:var(--tele)}
+
+  /* Voltar para galeria */
+  .back-gallery{margin-bottom:1rem}
 
   @media print{
     body{background:#fff!important;color:#000!important}
-    .top-bar,.site-footer,.no-print,.toast-container{display:none!important}
-    .screen{display:block!important;padding:0}
-    .cornell{border-color:#000}
-    .cornell textarea{color:#000;background:#fff;border:1px solid #999}
+    .top-bar,.site-footer,.no-print,.player-video,.nav-bottom,.toast-container{display:none!important}
+    .cornell-box{border:1px solid #000}
   }
 </style>
 </head>
@@ -57,146 +77,62 @@
   </div>
 </header>
 
-<main class="screen active">
+<main class="screen active" style="padding-top:1rem">
 
-  <div class="tele-hero no-print">
-    <h1>📡 Tele-educação em Saúde</h1>
-    <p style="color:var(--text-muted);max-width:720px;margin:0 auto">Ciclo de Palestras do projeto, videoteca curada por tema da jornada e a ferramenta <strong>Cornell Notes</strong> com exportação em PDF — tudo em uma página para estudo autônomo.</p>
+  <!-- ================= TELA 1 · GALERIA ================= -->
+  <div id="viewGallery">
+    <div class="tele-hero no-print">
+      <h1>🎬 Videoteca da Jornada</h1>
+      <p>Toque em uma miniatura para abrir o <strong>modo de estudo</strong>: vídeo em destaque + Cornell Notes lado a lado, para assistir e anotar ao mesmo tempo.</p>
+    </div>
+
+    <div class="sec-h no-print"><h2>🎓 Ciclo de Palestras — Tecnologias na Saúde</h2></div>
+    <div class="gallery" id="galCiclo"></div>
+
+    <div class="sec-h no-print"><h2>🎬 Videoteca Curada — por tema da Jornada</h2></div>
+    <div class="gallery" id="galTemas"></div>
   </div>
 
-  <!-- CORNELL NOTES -->
-  <div class="section-title" style="margin-top:1.5rem">
-    <h2>📝 Cornell Notes — Anotações do Estudo</h2>
-    <p>Assista a um vídeo abaixo e registre: à esquerda as <strong>pistas/palavras-chave</strong>, à direita as <strong>anotações</strong>, embaixo a <strong>síntese</strong>. Depois baixe em PDF.</p>
-  </div>
-  <div class="id-panel" style="max-width:900px">
-    <div class="id-grid" style="margin-bottom:.8rem">
-      <div><label>Tema / Vídeo estudado</label><input type="text" id="cnTitle" placeholder="Ex.: IA aplicada à Saúde — Profa. Rosa Costa"></div>
-      <div><label>Data</label><input type="text" id="cnDate" placeholder="Ex.: 07/09/2026"></div>
-    </div>
-    <div class="cornell">
-      <div><span class="lbl">🔑 Pistas / Palavras-chave</span><textarea class="cue" id="cnCue" placeholder="Ex.: telessaúde, teleconsultoria, LGPD..."></textarea></div>
-      <div><span class="lbl">📒 Anotações</span><textarea id="cnNotes" placeholder="Registre ideias principais, exemplos e dúvidas..."></textarea></div>
-      <div><span class="lbl">💡 Síntese (em 2–3 frases, com suas palavras)</span><textarea class="synth" id="cnSynth" placeholder="O que aprendi de mais importante..."></textarea></div>
-    </div>
-    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem" class="no-print">
-      <button class="btn btn-primary" onclick="downloadCornellPDF()">📄 Baixar em PDF</button>
-      <button class="btn btn-ghost" onclick="clearCornell()">🗑️ Limpar</button>
-    </div>
-    <p style="font-size:.78rem;color:var(--text-muted);margin-top:.7rem" class="no-print">🛡️ Suas anotações ficam apenas neste navegador (LGPD). O PDF é gerado pela janela de impressão do navegador — escolha "Salvar como PDF".</p>
-  </div>
-
-  <!-- CICLO DE PALESTRAS -->
-  <div class="section-title" style="margin-top:3rem">
-    <h2>🎓 Ciclo de Palestras — Tecnologias na Saúde</h2>
-    <p>Série original do projeto (EEAGB · FAPEMAT/BPIE): IA, Realidade Virtual, Serious Games e Gamificação</p>
-  </div>
-
-  <div class="day-card">
-    <div class="meta">1º Dia · 1h17min</div>
-    <h3>Inteligência Artificial aplicada à Saúde</h3>
-    <p>Profa. Dra. Rosa Maria E. M. Costa (UERJ) — 1ª Jornada Acadêmica de Educação em Saúde Digital.</p>
-    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/jUrWMthRF30" title="IA e Saúde" allowfullscreen></iframe></div>
-  </div>
-
-  <div class="day-card">
-    <div class="meta">2º Dia · 1h48min</div>
-    <h3>Realidade Virtual e Aumentada na Saúde</h3>
-    <p>Prof. Dr. Alcyr Alves de Oliveira Jr. (NERV/UFCSPA) — pesquisa em RV aplicada à saúde.</p>
-    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/CbfSLWHJyI0" title="RV/RA e Saúde" allowfullscreen></iframe></div>
-  </div>
-
-  <div class="day-card">
-    <div class="meta">3º Dia · Webinário</div>
-    <h3>Serious Games e Saúde</h3>
-    <p>Net-Escola / Instituto de Saúde Coletiva (UFBA), com Profa. Suiane Costa (UNEB), Daiane Zeballos e Raphael Sande.</p>
-    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/kZ-YSPAUHXM" title="Serious Games e Saúde" allowfullscreen></iframe></div>
-  </div>
-
-  <div class="day-card">
-    <div class="meta">4º Dia · Leitura orientada</div>
-    <h3>Gamificação e Saúde</h3>
-    <p>Leituras: Ferreira &amp; Gomes (2021) — <em>Aplicativos móveis para crianças e adolescentes com doenças crônicas</em> (Interface, <a href="https://doi.org/10.1590/interface.200648" style="color:var(--tele)">DOI 10.1590/interface.200648</a>) e Studart (2022) — <em>A gamificação como design instrucional</em> (RBEF, <a href="https://doi.org/10.1590/1806-9126-RBEF-2021-0362" style="color:var(--tele)">DOI 10.1590/1806-9126-RBEF-2021-0362</a>).</p>
-  </div>
-
-  <div class="day-card">
-    <div class="meta">5º Dia · Pesquisa científica</div>
-    <h3>Anais do SBGames 2021 — Trilhas Educação, Saúde e Jogos</h3>
-    <p>Busca por artigos nos anais da <a href="https://www.sbgames.org/sbgames2021/proceedings-sbgames-2021/" style="color:var(--tele)">SBGames 2021 (SBC)</a>: cada estudante seleciona um artigo, lê e socializa objetivo, metodologia, tecnologias e resultados.</p>
-  </div>
-
-  <div class="day-card">
-    <div class="meta">6º Dia · Formação complementar (cursos gratuitos)</div>
-    <h3>Escola Virtual Gov + Fundação Bradesco</h3>
-    <p>Cursos gratuitos recomendados (use o e-mail institucional):</p>
-    <a class="course-link" href="https://www.escolavirtual.gov.br/curso/418" target="_blank" rel="noopener">🖥️ Ambiente Virtual de Aprendizagem (EVG) <span class="ch">30h</span></a>
-    <a class="course-link" href="https://www.ev.org.br/cursos/lei-geral-de-protecao-de-dados-lgpd" target="_blank" rel="noopener">🛡️ Lei Geral de Proteção de Dados (LGPD) <span class="ch">2h</span></a>
-    <a class="course-link" href="https://www.ev.org.br/cursos/boas-praticas-na-producao-de-videoaulas" target="_blank" rel="noopener">🎬 Boas Práticas na Produção de Videoaulas <span class="ch">5h</span></a>
-    <a class="course-link" href="https://www.ev.org.br/cursos/recursos-educacionais-abertos-rea" target="_blank" rel="noopener">📚 Recursos Educacionais Abertos (REA) <span class="ch">20h</span></a>
-  </div>
-
-  <!-- VIDEOTECA CURADA -->
-  <div class="section-title" style="margin-top:3rem">
-    <h2>🎬 Videoteca Curada — por tema da Jornada</h2>
-    <p>Vídeos curtos e confiáveis para revisar cada missão (canais verificados e instituições de saúde)</p>
-  </div>
-  <div class="vid-grid">
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/qKZHJNGVAfs" title="O que é telessaúde" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">Telessaúde</span><h4>Você sabe o que é telessaúde?</h4><div class="src">Dr. Gabriel de Paula · #ECGNOW</div><span class="dur">Introdução</span></div>
+  <!-- ================= TELA 2 · PLAYER + CORNELL ================= -->
+  <div id="viewPlayer">
+    <button class="btn btn-ghost back-gallery no-print" onclick="goGallery()">← Voltar à videoteca</button>
+    <div class="player-grid">
+      <!-- Vídeo em destaque -->
+      <div class="player-video">
+        <div class="video-wrap"><iframe id="pvFrame" src="" title="Vídeo" allowfullscreen></iframe></div>
+        <h2 id="pvTitle"></h2>
+        <div class="p-src" id="pvSrc"></div>
+        <span class="p-tag" id="pvTag"></span>
+      </div>
+      <!-- Cornell Notes lateral -->
+      <div class="cornell-box">
+        <h3>📝 Cornell Notes</h3>
+        <label>Tema / Vídeo</label>
+        <input type="text" id="cnTitle" placeholder="Tema estudado">
+        <label>Data</label>
+        <input type="text" id="cnDate" placeholder="Ex.: 08/09/2026">
+        <label>🔑 Pistas / Palavras-chave</label>
+        <textarea class="cn-cue" id="cnCue" placeholder="Ex.: telessaúde, melatonina, ultraprocessado..."></textarea>
+        <label>📒 Anotações</label>
+        <textarea class="cn-notes" id="cnNotes" placeholder="Ideias principais, exemplos, dúvidas..."></textarea>
+        <label>💡 Síntese (suas palavras)</label>
+        <textarea class="cn-synth" id="cnSynth" placeholder="O que aprendi de mais importante..."></textarea>
+        <div class="cn-actions no-print">
+          <button class="btn btn-primary" onclick="downloadCornellPDF()">📄 Baixar PDF</button>
+          <button class="btn btn-ghost" onclick="clearCornell()">🗑️ Limpar</button>
+        </div>
+        <p style="font-size:.7rem;color:var(--text-muted);margin-top:.6rem" class="no-print">🛡️ Anotações ficam só neste navegador (LGPD).</p>
+      </div>
     </div>
 
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/ScLcGubVEO8" title="Ultraprocessados — estudo com gêmeas" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M1 · Rótulos</span><h4>Ultraprocessados: a experiência com as gêmeas</h4><div class="src">BBC News Brasil</div><span class="dur">5:55</span></div>
+    <!-- Navegação inferior -->
+    <div class="nav-bottom no-print">
+      <button class="btn btn-ghost" id="btnPrev" onclick="prevVideo()">← Voltar</button>
+      <div class="nav-next-wrap">
+        <button class="btn btn-primary" id="btnNext" onclick="nextVideo()">Próximo →</button>
+        <div class="nav-next-name" id="nextName"></div>
+      </div>
     </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/36F0fwY3VCk" title="Alimentos ultraprocessados" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M1 · Rótulos</span><h4>Alimentos ultraprocessados</h4><div class="src">SAPS · Secretaria de Atenção Primária à Saúde (Min. da Saúde)</div><span class="dur">3:57</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/x5EwVBmVk8o" title="Guia Alimentar — 10 passos" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M2 · TBCA</span><h4>Guia Alimentar: 10 passos para uma alimentação saudável</h4><div class="src">PAHO TV / OPAS · Ministério da Saúde</div><span class="dur">2:35</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/Bs_16H4swao" title="Higiene do sono" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M3 · Sono</span><h4>O que é higiene do sono e como ela ajuda a dormir melhor?</h4><div class="src">Hospital Alemão Oswaldo Cruz</div><span class="dur">0:59</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/0Gw-mT5ymn8" title="Higiene do sono — g1" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M3 · Sono</span><h4>Como fazer a higiene do sono? Os maiores inimigos da noite restauradora</h4><div class="src">g1 · Globo</div><span class="dur">1:34</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/xSYkc9J8UjU" title="Como dormir melhor" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M3 · Sono</span><h4>Como dormir melhor... de acordo com a ciência</h4><div class="src">Ciência Todo Dia</div><span class="dur">12:45</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/alZZ2PQ0SL8" title="150 minutos de exercício" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M5 · Movimento</span><h4>150 minutos de exercício por semana</h4><div class="src">Drauzio Varella</div><span class="dur">1:49</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/98aKpjFwd4s" title="Atividade física — Marcio Atalla" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M5 · Movimento</span><h4>Por que a atividade física faz tão bem à saúde?</h4><div class="src">Marcio Atalla · Inteligência Ltda.</div><span class="dur">5:49</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/h36Z4chBXT4" title="Alimentos e imunidade" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M7 · Imunidade</span><h4>Os alimentos que realmente fortalecem a imunidade</h4><div class="src">Olá, Ciência!</div><span class="dur">10:37</span></div>
-    </div>
-
-    <div class="vid-card">
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/pA-99WNabfw" title="Sistema imunológico" allowfullscreen></iframe></div>
-      <div class="vid-body"><span class="theme-tag">M7 · Imunidade</span><h4>Como funciona o sistema imunológico?</h4><div class="src">Universo Explicado</div><span class="dur">9:16</span></div>
-    </div>
-
   </div>
 
 </main>
@@ -205,40 +141,109 @@
   <div class="logos">
     <img src="assets/logos/biotech_edudesign.png" alt="Bio+Tech EduDesign">
     <img src="assets/logos/gov_mato_grosso.png" alt="Governo do Estado de Mato Grosso">
-    <img src="assets/logos/fapemat.svg" alt="FAPEMAT">
+    <img src="assets/logos/fapemat.png" alt="FAPEMAT">
   </div>
   <p><strong>Tele-educação em Saúde · OAD Telessaúde na Escola</strong></p>
-  <p>Recurso Educacional Aberto · Bio+Tech EduDesign · Governo de MT · FAPEMAT · © 2026</p>
+  <p>Recurso Educacional Aberto · Bio+Tech EduDesign · Governo de MT · FAPEMAT · &#x1f16d; 2022 - 2026</p>
 </footer>
 
+<div class="toast-container" id="toastContainer"></div>
+
 <script>
-// ===== Cornell Notes: persistência local (LGPD) + exportação PDF =====
-const CN_KEY='oad_cornell_notes_v1';
+/* ============ BIBLIOTECA DE VÍDEOS ============ */
+const VIDEOS_CICLO = [
+  {id:"jUrWMthRF30", title:"Inteligência Artificial aplicada à Saúde", src:"Profa. Dra. Rosa Maria E. M. Costa · UERJ", tag:"Ciclo · 1º Dia", dur:"1h17"},
+  {id:"CbfSLWHJyI0", title:"Realidade Virtual e Aumentada na Saúde", src:"Prof. Dr. Alcyr Alves de Oliveira Jr. · NERV/UFCSPA", tag:"Ciclo · 2º Dia", dur:"1h48"},
+  {id:"kZ-YSPAUHXM", title:"Serious Games e Saúde", src:"Net-Escola · ISC/UFBA", tag:"Ciclo · 3º Dia", dur:"Webinário"},
+  {id:"qKZHJNGVAfs", title:"Você sabe o que é telessaúde?", src:"Dr. Gabriel de Paula · #ECGNOW", tag:"Telessaúde", dur:"Intro"}
+];
+const VIDEOS_TEMAS = [
+  {id:"ScLcGubVEO8", title:"Ultraprocessados: a experiência com as gêmeas", src:"BBC News Brasil", tag:"M1 · Rótulos", dur:"5:55"},
+  {id:"36F0fwY3VCk", title:"Alimentos ultraprocessados", src:"SAPS · Min. da Saúde", tag:"M1 · Rótulos", dur:"3:57"},
+  {id:"x5EwVBmVk8o", title:"Guia Alimentar: 10 passos p/ alimentação saudável", src:"PAHO TV / OPAS · Min. da Saúde", tag:"M2 · TBCA", dur:"2:35"},
+  {id:"0Gw-mT5ymn8", title:"Higiene do sono: inimigos da noite restauradora", src:"g1 · Globo", tag:"M3 · Sono", dur:"1:34"},
+  {id:"_DvBNr9wYZE", title:"Health Talk — Sleep Hygiene", src:"Saúde Digital UFSC · Telehealth SC", tag:"M3 · Sono", dur:"1:25"},
+  {id:"alZZ2PQ0SL8", title:"150 minutos de exercício por semana", src:"Drauzio Varella", tag:"M5 · Movimento", dur:"1:49"},
+  {id:"I5AGYOjfZiE", title:"Por que atividade física faz bem à saúde?", src:"Drauzio Varella", tag:"M5 · Movimento", dur:"1:49"},
+  {id:"b6nwWcFQRFk", title:"Alimentação e imunidade (nutrólogo explica)", src:"Dr. Fellipe Savioli", tag:"M7 · Imunidade", dur:"16:41"},
+  {id:"pA-99WNabfw", title:"Como funciona o sistema imunológico?", src:"Universo Explicado", tag:"M7 · Imunidade", dur:"9:16"}
+];
+const ALL = [...VIDEOS_CICLO, ...VIDEOS_TEMAS];
+let cur = -1;
+
+/* ============ TELA 1 · GALERIA ============ */
+function thumbHTML(v){
+  const idx = ALL.findIndex(x=>x.id===v.id);
+  return `<div class="thumb" onclick="openVideo(${idx})">
+    <img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy">
+    <span class="t-dur">${v.dur}</span>
+    <div class="t-body"><span class="t-tag">${v.tag}</span><h4>${v.title}</h4><div class="t-src">${v.src}</div></div>
+  </div>`;
+}
+function renderGalleries(){
+  document.getElementById('galCiclo').innerHTML = VIDEOS_CICLO.map(thumbHTML).join('');
+  document.getElementById('galTemas').innerHTML = VIDEOS_TEMAS.map(thumbHTML).join('');
+}
+
+/* ============ TELA 2 · PLAYER + CORNELL ============ */
+function openVideo(idx){
+  cur = idx;
+  const v = ALL[idx];
+  document.getElementById('viewGallery').style.display='none';
+  document.getElementById('viewPlayer').style.display='block';
+  document.getElementById('pvFrame').src = "https://www.youtube.com/embed/"+v.id+"?autoplay=1&rel=0";
+  document.getElementById('pvTitle').textContent = v.title;
+  document.getElementById('pvSrc').textContent = v.src + " · " + v.dur;
+  document.getElementById('pvTag').textContent = v.tag;
+  // Preenche tema do Cornell com o título do vídeo
+  document.getElementById('cnTitle').value = v.title;
+  // Botões Voltar / Próximo + nome do próximo
+  document.getElementById('btnPrev').style.visibility = idx===0 ? 'hidden':'visible';
+  const next = ALL[idx+1];
+  document.getElementById('btnNext').style.visibility = next ? 'visible':'hidden';
+  document.getElementById('nextName').innerHTML = next ? ('A seguir: <strong>'+next.title+'</strong>') : '';
+  window.scrollTo({top:0,behavior:'smooth'});
+  toastNow('🎬 Modo estudo: assista e anote ao lado →','gold');
+}
+function goGallery(){
+  document.getElementById('pvFrame').src='';
+  document.getElementById('viewPlayer').style.display='none';
+  document.getElementById('viewGallery').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVideo(){ if(cur < ALL.length-1) openVideo(cur+1); }
+function prevVideo(){ if(cur > 0) openVideo(cur-1); }
+
+/* ============ TOAST local ============ */
+function toastNow(msg,type){
+  const c=document.getElementById('toastContainer');const t=document.createElement('div');
+  t.className='toast '+(type==='gold'?'gold':'');t.textContent=msg;c.appendChild(t);
+  setTimeout(()=>{t.style.opacity=0;setTimeout(()=>t.remove(),300)},3000);
+}
+
+/* ============ CORNELL NOTES (persistência local + PDF) ============ */
+const CN_KEY='oad_cornell_notes_v2';
 ['cnTitle','cnDate','cnCue','cnNotes','cnSynth'].forEach(id=>{
   const el=document.getElementById(id);
   try{const saved=JSON.parse(localStorage.getItem(CN_KEY)||'{}'); if(saved[id]) el.value=saved[id];}catch(e){}
   el.addEventListener('input',()=>{
-    try{
-      const data=JSON.parse(localStorage.getItem(CN_KEY)||'{}');
-      data[id]=el.value;
-      localStorage.setItem(CN_KEY,JSON.stringify(data));
-    }catch(e){}
+    try{const data=JSON.parse(localStorage.getItem(CN_KEY)||'{}');data[id]=el.value;localStorage.setItem(CN_KEY,JSON.stringify(data));}catch(e){}
   });
 });
 function clearCornell(){
   if(!confirm('Apagar todas as anotações desta sessão?'))return;
   ['cnTitle','cnDate','cnCue','cnNotes','cnSynth'].forEach(id=>document.getElementById(id).value='');
   localStorage.removeItem(CN_KEY);
+  toastNow('🗑️ Anotações apagadas','gold');
 }
 function downloadCornellPDF(){
-  // Gera uma janela de impressão formatada (Salvar como PDF)
   const v=id=>document.getElementById(id).value||'—';
   const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
   const w=window.open('','_blank');
   w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Cornell Notes — ${esc(v('cnTitle'))}</title>
   <style>
     body{font-family:Arial,sans-serif;color:#111;max-width:800px;margin:2rem auto;padding:0 1rem}
-    h1{font-size:1.3rem;border-bottom:3px solid #10b981;padding-bottom:.5rem}
+    h1{font-size:1.25rem;border-bottom:3px solid #10b981;padding-bottom:.5rem}
     .meta{color:#555;font-size:.85rem;margin-bottom:1.2rem}
     .grid{display:grid;grid-template-columns:1fr 2fr;gap:0;border:2px solid #10b981}
     .box{padding:1rem;min-height:150px;font-size:.9rem;line-height:1.6}
@@ -259,6 +264,10 @@ function downloadCornellPDF(){
   </body></html>`);
   w.document.close();
 }
+
+/* ============ INIT ============ */
+renderGalleries();
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
